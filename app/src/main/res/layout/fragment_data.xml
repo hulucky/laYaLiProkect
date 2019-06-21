@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/item_offset_8dp"
+        android:text="测试结果"
+        android:textColor="@color/orange"
+        android:textSize="@dimen/item_offset_15sp"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/line1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#000" />
+
+        <LinearLayout
+            android:id="@+id/ll_tittle_name"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@color/plum"
+            android:divider="@drawable/divider2"
+            android:orientation="horizontal"
+            android:showDividers="middle">
+
+            <TextView
+                android:id="@+id/item0"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text="条目"
+                android:textColor="#000" />
+
+            <TextView
+                android:id="@+id/item1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text="力"
+                android:textColor="#000" />
+
+            <TextView
+                android:id="@+id/item2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:gravity="center"
+                android:text="测试时间"
+                android:textColor="#000" />
+
+            <TextView
+                android:id="@+id/item3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text="删除"
+                android:textColor="#000" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/line2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#000" />
+
+        <ListView
+            android:id="@+id/listview"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_offset_120dp" />
+
+        <View
+            android:id="@+id/line3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#000" />
+
+        <LinearLayout
+            android:id="@+id/ll_pingJun"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@color/plum"
+            android:divider="@drawable/divider2"
+            android:orientation="horizontal"
+            android:showDividers="middle">
+
+            <TextView
+                android:id="@+id/tv_pingJun"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text="平均"
+                android:textColor="#000" />
+
+            <TextView
+                android:id="@+id/tv_pingJunValue"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:textColor="#000" />
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:gravity="center"
+                android:text="        "
+                android:textColor="#000" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text="    "
+                android:textColor="#000" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/line4"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#000" />
+
+        <LinearLayout
+            android:id="@+id/ll_leiJi"
+            android:background="@color/plum"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:divider="@drawable/divider2"
+            android:orientation="horizontal"
+            android:showDividers="middle">
+
+            <TextView
+                android:id="@+id/tv_leiJi"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text="累积"
+                android:textColor="#000" />
+
+            <TextView
+                android:id="@+id/tv_leiJiValue"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:textColor="#000" />
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:gravity="center"
+                android:text="        "
+                android:textColor="#000" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text="    "
+                android:textColor="#000" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/line5"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#000" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/skyblue"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="@dimen/item_offset_15dp"
+            android:layout_marginTop="@dimen/item_offset_10dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et1"
+                android:layout_width="@dimen/item_offset_0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="受检单位名称："
+                android:maxLines="1"
+                android:textSize="@dimen/item_offset_15sp" />
+
+            <EditText
+                android:id="@+id/et2"
+                android:layout_width="@dimen/item_offset_0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="测试人员："
+                android:maxLines="1"
+                android:textSize="@dimen/item_offset_15sp" />
+
+            <EditText
+                android:id="@+id/et3"
+                android:layout_width="@dimen/item_offset_0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="测试时间："
+                android:maxLines="1"
+                android:textSize="@dimen/item_offset_15sp" />
+
+            <EditText
+                android:id="@+id/et4"
+                android:layout_width="@dimen/item_offset_0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="备注："
+                android:maxLines="1"
+                android:textSize="@dimen/item_offset_15sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/item_offset_5dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_chaXun"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查询" />
+
+            <Button
+                android:id="@+id/btn_quanBu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="全部" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/darkkhaki"
+        android:divider="@drawable/divider2"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/item_offset_5dp"
+        android:paddingLeft="@dimen/item_offset_15dp"
+        android:paddingRight="@dimen/item_offset_15dp"
+        android:paddingTop="@dimen/item_offset_5dp"
+        android:showDividers="middle">
+
+        <TextView
+            android:layout_width="@dimen/item_offset_0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="测试条目"
+            android:textSize="@dimen/item_offset_15dp" />
+
+        <TextView
+            android:layout_width="@dimen/item_offset_0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="受检单位"
+            android:textSize="@dimen/item_offset_15dp" />
+
+        <TextView
+            android:layout_width="@dimen/item_offset_0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="测试人员"
+            android:textSize="@dimen/item_offset_15dp" />
+
+        <TextView
+            android:layout_width="@dimen/item_offset_0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="测试时间"
+            android:textSize="@dimen/item_offset_15dp" />
+
+        <TextView
+            android:layout_width="@dimen/item_offset_0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="备注"
+            android:textSize="@dimen/item_offset_15dp" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/listView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

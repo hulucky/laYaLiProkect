@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <com.sensor.view.SensorView
+            android:id="@+id/sv_laLi"
+            android:layout_width="240dp"
+            android:layout_height="match_parent"
+            app:CheckConnect="true"
+            app:CheckTime="3000"
+            app:DrawModel="variable"
+            app:SensorType="LA_LI"
+            app:SensorViewPadding="@dimen/item_offset_10dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#082045"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/spacing_normal"
+        android:paddingLeft="@dimen/spacing_normal"
+        android:paddingTop="@dimen/spacing_normal">
+
+        <RelativeLayout
+            android:id="@+id/fl_data"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bg_shape_chart">
+
+            <LinearLayout
+                android:id="@+id/ll_li"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/item_offset_10dp"
+                android:layout_marginRight="@dimen/item_offset_10dp"
+                android:layout_marginTop="@dimen/item_offset_10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/TextView_laber_inf"
+                    android:layout_width="110dp"
+                    android:layout_marginLeft="@dimen/item_offset_32dp"
+                    android:gravity="center"
+                    android:paddingRight="@dimen/item_offset_5dp"
+                    android:text="力" />
+
+                <TextView
+                    style="@style/TextView_laber_inf"
+                    android:text=":" />
+
+                <TextView
+                    android:id="@+id/tv_li"
+                    style="@style/TextView_laber_inf"
+                    android:layout_width="60dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="0.00" />
+
+                <TextView
+                    style="@style/TextView_laber_inf"
+                    android:layout_marginLeft="10dp"
+                    android:text="kN" />
+
+                <Button
+                    android:id="@+id/btn_clearLi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:background="@color/orange"
+                    android:text="清零"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_maxLi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ll_li"
+                android:layout_marginLeft="@dimen/item_offset_10dp"
+                android:layout_marginRight="@dimen/item_offset_10dp"
+                android:layout_marginTop="@dimen/item_offset_10dp"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical" />
+
+                <TextView
+                    style="@style/TextView_laber_inf"
+                    android:layout_width="110dp"
+                    android:gravity="center"
+                    android:paddingRight="@dimen/item_offset_5dp"
+                    android:text="最大力" />
+
+                <TextView
+                    style="@style/TextView_laber_inf"
+                    android:text=":" />
+
+                <TextView
+                    android:id="@+id/tv_maxLi"
+                    style="@style/TextView_laber_inf"
+                    android:layout_width="60dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="0.00" />
+
+                <TextView
+                    style="@style/TextView_laber_inf"
+                    android:layout_marginLeft="10dp"
+                    android:text="kN" />
+
+                <Button
+                    android:id="@+id/btn_clearMaxLi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:background="@color/gray"
+                    android:text="清零"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/lineup"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/ll_maxLi"
+                android:layout_marginTop="@dimen/item_offset_20dp"
+                android:background="#000" />
+
+            <LinearLayout
+                android:id="@+id/ll_tittle_name"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_below="@+id/lineup"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:background="@color/plum"
+                android:divider="@drawable/divider2"
+                android:orientation="horizontal"
+                android:showDividers="middle">
+
+                <TextView
+                    android:id="@+id/item0"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="条目"
+                    android:textColor="#000" />
+
+                <TextView
+                    android:id="@+id/item1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="力"
+                    android:textColor="#000" />
+
+
+                <TextView
+                    android:id="@+id/item2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text="测试时间"
+                    android:textColor="#000" />
+
+                <TextView
+                    android:id="@+id/item3"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="删除"
+                    android:textColor="#000" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/ll_tittle_name"
+                android:background="#000" />
+
+            <ListView
+                android:id="@+id/listview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@id/line2"
+                android:layout_below="@id/line" />
+
+            <LinearLayout
+                android:id="@+id/ll_leiJi"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginBottom="2dp"
+                android:background="@color/plum"
+                android:divider="@drawable/divider2"
+                android:orientation="horizontal"
+                android:showDividers="middle">
+
+                <TextView
+                    android:id="@+id/tv_leiJi"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="累积"
+                    android:textColor="#000" />
+
+                <TextView
+                    android:id="@+id/tv_leiJiValue"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:textColor="#000" />
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text="        "
+                    android:textColor="#000" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="    "
+                    android:textColor="#000" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/line1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_above="@+id/ll_leiJi"
+                android:background="#000" />
+
+            <LinearLayout
+                android:id="@+id/ll_pingJun"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_above="@+id/line1"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:background="@color/plum"
+                android:divider="@drawable/divider2"
+                android:orientation="horizontal"
+                android:showDividers="middle">
+
+                <TextView
+                    android:id="@+id/tv_pingJun"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="平均"
+                    android:textColor="#000" />
+
+                <TextView
+                    android:id="@+id/tv_pingJunValue"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:textColor="#000" />
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text="        "
+                    android:textColor="#000" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="    "
+                    android:textColor="#000" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/line2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_above="@+id/ll_pingJun"
+                android:background="#000" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/item_offset_14dp">
+
+            <TextView
+                android:id="@+id/tv_test"
+                android:layout_width="@dimen/item_offset_70dp"
+                android:layout_height="@dimen/item_offset_40dp"
+                android:background="@mipmap/rightbar_btn_bg"
+                android:gravity="center"
+                android:text="测试"
+                android:textSize="@dimen/item_offset_13sp" />
+
+
+            <TextView
+                android:id="@+id/tv_save"
+                android:layout_width="@dimen/item_offset_70dp"
+                android:layout_height="@dimen/item_offset_40dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:background="@mipmap/icon_btn_save_normal"
+                android:gravity="center"
+                android:text="保存"
+                android:textSize="@dimen/item_offset_14sp" />
+
+            <TextView
+                android:id="@+id/tv_start"
+                android:layout_width="@dimen/item_offset_70dp"
+                android:layout_height="@dimen/item_offset_40dp"
+                android:layout_above="@+id/tv_save"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:background="@mipmap/icon_btn_save_normal"
+                android:gravity="center"
+                android:text="开始"
+                android:textSize="@dimen/item_offset_14sp" />
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

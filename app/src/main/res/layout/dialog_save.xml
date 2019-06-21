@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="400dp"
+    android:layout_height="300dp"
+    android:background="@color/white"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_offset_40dp"
+        android:text="请输入备注："
+        android:gravity="center"
+        android:textColor="@color/orange"
+        android:textSize="@dimen/item_offset_15sp"/>
+
+    <EditText
+        android:id="@+id/et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/item_offset_15sp"
+        android:layout_marginTop="@dimen/item_offset_10dp"
+        android:hint="请输入备注："/>
+
+    <TextView
+        android:id="@+id/tv_sure"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="@dimen/item_offset_20dp"
+        android:layout_marginRight="@dimen/item_offset_20dp"
+        android:layout_marginTop="@dimen/item_offset_50dp"
+        android:background="@drawable/shape_kaishi"
+        android:gravity="center"
+        android:text="确定"
+        android:textColor="@color/white"
+        android:textSize="15sp" />
+
+</LinearLayout>

@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">矿用无线拉压力测试仪</string>
+    <string name="test_test">测 &#160;试</string>
+    <string name="test_para">测试参数</string>
+    <string name="task_unit_notnull">受检单位名称 ： 不能为空；</string>
+    <string name="task_man_notnull">测试员 ： 不能为空；</string>
+</resources>
