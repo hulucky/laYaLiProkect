@@ -2,12 +2,18 @@ package com.example.hu.layaliprokect.Fragment;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.view.LayoutInflater;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,17 +32,23 @@ import com.example.hu.layaliprokect.Entity.TaskEntity;
 import com.example.hu.layaliprokect.R;
 import com.mchsdk.paysdk.mylibrary.ListFragment;
 
-import org.greenrobot.greendao.query.QueryBuilder;
-
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
+import es.dmoral.toasty.Toasty;
+import jxl.CellType;
+import jxl.Workbook;
+import jxl.write.Label;
+import jxl.write.WritableCell;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
 
 public class DataFragment extends ListFragment {
 
@@ -97,6 +109,7 @@ public class DataFragment extends ListFragment {
     private Data1Adapter data1Adapter;
     private Data2Adapter data2Adapter;
     private DecimalFormat df2 = new DecimalFormat("0.00");
+    private MenuInflater inflaters;
 
     @Override
     protected void lazyLoadData() {
@@ -139,6 +152,8 @@ public class DataFragment extends ListFragment {
         qylEntities = new ArrayList<>();
         taskEntityDao = MyApp.getInstance().getmDaoSession().getTaskEntityDao();
         qylEntityDao = MyApp.getInstance().getmDaoSession().getQylEntityDao();
+        Log.d("rrpp", "initView: ");
+        setHasOptionsMenu(true);
     }
 
     public static DataFragment newInstance(int position) {
@@ -147,6 +162,124 @@ public class DataFragment extends ListFragment {
         bundle.putInt("position", position);
         dataFragment.setArguments(bundle);
         return dataFragment;
+    }
+
+    //创建菜单
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        Log.d("rrpp", "onCreateOptionsMenu: ");
+        Log.d("rrpp", "onCreateOptionsMenu: ");
+        inflater.inflate(R.menu.datamenu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_xinxi:
+                String str = "测试条数：" + taskEntityDao.loadAll().size();
+                //弹框显示任务条数
+                new AlertDialog.Builder(context).setMessage(str).create().show();
+                break;
+            case R.id.menu_baogao:
+                updateExcel();//生成报告
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    //生成报告
+    private void updateExcel() {
+        try {
+            //先创建文件夹
+            File fileDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/拉压力综合测试仪/测试报告/");
+            if (!fileDir.exists()) {
+                fileDir.mkdirs();
+            }
+            //再创建文件
+            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() +
+                    "/拉压力综合测试仪/测试报告/" + "力测试数据.xls");
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("assets/layali.xls");
+            //读到模板文件
+            Workbook wb = Workbook.getWorkbook(inputStream);
+            //我们要操作的中间临时文件
+            WritableWorkbook workbook = Workbook.createWorkbook(file, wb);
+            WritableSheet sheet5 = workbook.getSheet(5);//力数据界面
+            List<TaskEntity> taskList = taskEntityDao.loadAll();
+            if (taskList.size() != 0) {
+                Collections.reverse(taskList);//倒序，最后检的最先显示
+                for (int i = 0; i < taskList.size(); i++) {
+                    TaskEntity taskEntity = taskList.get(i);
+                    Long id = taskEntity.getId();
+                    List<QylEntity> qylList = qylEntityDao.queryBuilder().where(QylEntityDao.Properties.Key.eq(id)).list();
+                    WritableCell cell_2y = sheet5.getWritableCell(2, i + 3);//受检单位
+                    WritableCell cell_3y = sheet5.getWritableCell(3, i + 3);//测试人员
+                    WritableCell cell_4y = sheet5.getWritableCell(4, i + 3);//测试时间
+                    WritableCell cell_5y = sheet5.getWritableCell(5, i + 3);//平均力
+                    WritableCell cell_6y = sheet5.getWritableCell(6, i + 3);//备注
+                    if (cell_2y.getType() == CellType.LABEL && cell_3y.getType() == CellType.LABEL &&
+                            cell_4y.getType() == CellType.LABEL && cell_5y.getType() == CellType.LABEL &&
+                            cell_6y.getType() == CellType.LABEL) {
+                        Label label2_y = (Label) cell_2y;
+                        Label label3_y = (Label) cell_3y;
+                        Label label4_y = (Label) cell_4y;
+                        Label label5_y = (Label) cell_5y;
+                        Label label6_y = (Label) cell_6y;
+
+                        label2_y.setString(taskEntity.getUnitName());//受检单位
+                        label3_y.setString(taskEntity.getPeopleName());//测试人员
+                        label4_y.setString(taskEntity.getCreateTaskTime());//测试时间
+                        if (qylList.size() != 0) {
+                            //计算平均和累积
+                            String pingJun = "";//平均
+                            float leiJi = 0;//累积
+                            for (int j = 0; j < qylList.size(); j++) {
+                                leiJi = qylList.get(j).getCurrentLi() + leiJi;
+                            }
+                            pingJun = df2.format(leiJi / qylList.size());
+                            label5_y.setString(pingJun);//平均力
+                        } else {
+                            label5_y.setString("-");//平均力
+                        }
+                        label6_y.setString(taskEntity.getBeiZhu());//备注
+                    }
+                }
+
+
+            }
+            if (inputStream != null) {
+                inputStream.close();
+            }
+            workbook.write();
+            workbook.close();
+            wb.close();
+
+            try {
+                Intent intent = getWordFileIntent(Environment.getExternalStorageDirectory().getAbsolutePath()
+                        + "/拉压力综合测试仪/测试报告/" + "力测试数据.xls");
+                startActivity(intent);
+            } catch (Exception e) {
+                Toasty.error(context, "打开WPS失败").show();
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 打开WPS
+    public static Intent getWordFileIntent(String param) {
+        Intent intent = new Intent("android.intent.action.VIEW");
+        intent.addCategory("android.intent.category.DEFAULT");
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        Uri uri = Uri.fromFile(new File(param));
+        intent.setDataAndType(uri, "application/msword");
+        return intent;
     }
 
     @Override

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,6 +21,7 @@ import com.example.hu.layaliprokect.Fragment.TestParaFragment;
 import com.example.hu.layaliprokect.R;
 import com.example.hu.layaliprokect.Utils.EyesUtils;
 import com.flyco.tablayout.SlidingTabLayout;
+import com.jaeger.library.StatusBarUtil;
 import com.xzkydz.function.view.CustomViewPager;
 
 import java.util.ArrayList;
@@ -67,6 +69,18 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
         ButterKnife.bind(this);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);  //决定左上角的图标是否可以点击
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+        toolbar.setTitleTextColor(Color.WHITE);
+        this.setTitle("力的测试");
+
         if (Build.VERSION_CODES.M > Build.VERSION.SDK_INT) { //小于6.0
             EyesUtils.setStatusBarColorTw(this, ContextCompat.getColor(this, R.color.orange_my));    //设置标题栏透明白，字体为黑色
         } else {

@@ -4,29 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
-    <include layout="@layout/include_toolbar" />
+    <include
+        layout="@layout/include_toolbar"
+        android:visibility="gone" />
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/orange_my"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <com.xzkydz.function.view.CustomViewPager
         android:id="@+id/vp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        />
+        android:layout_weight="1" />
+
     <com.flyco.tablayout.SlidingTabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_offset_60dp"
         android:background="@color/orange_my"
-        app:tl_textsize="@dimen/text_body_16sp"
-        app:tl_tab_space_equal="true"
-        app:tl_textSelectColor="@color/white"
-        app:tl_textUnselectColor="@color/white"
         app:tl_indicator_corner_radius="@dimen/item_offset_1dp"
         app:tl_indicator_height="@dimen/item_offset_3dp"
         app:tl_indicator_width="@dimen/item_offset_50dp"
-        />
+        app:tl_tab_space_equal="true"
+        app:tl_textSelectColor="@color/white"
+        app:tl_textUnselectColor="@color/white"
+        app:tl_textsize="@dimen/text_body_16sp" />
 
 </LinearLayout>
