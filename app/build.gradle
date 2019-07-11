@@ -11,8 +11,8 @@ android {
         applicationId "com.example.hu.layaliprokect"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 6
-        versionName "V1.190709"
+        versionCode 11
+        versionName "V2.190711"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }

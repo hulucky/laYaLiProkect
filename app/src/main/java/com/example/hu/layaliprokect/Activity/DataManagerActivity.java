@@ -9,6 +9,7 @@ import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,8 +37,10 @@ import com.jaeger.library.StatusBarUtil;
 import java.io.File;
 import java.io.InputStream;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -132,7 +135,11 @@ public class DataManagerActivity extends AppCompatActivity {
         taskEntityDao = MyApp.getInstance().getmDaoSession().getTaskEntityDao();
         qylEntityDao = MyApp.getInstance().getmDaoSession().getQylEntityDao();
         taskEntities = taskEntityDao.loadAll();
-        qylEntities = qylEntityDao.loadAll();
+        //刚进入时，上面的listview不显示数据
+        listview.setVisibility(View.INVISIBLE);
+        tvPingJunValue.setText("--");
+        tvLeiJiValue.setText("--");
+//        qylEntities = qylEntityDao.loadAll();
         if (taskEntities.size() != 0) {
             Collections.reverse(taskEntities);
             listView2.setVisibility(View.VISIBLE);
@@ -142,25 +149,25 @@ public class DataManagerActivity extends AppCompatActivity {
             listView2.setVisibility(View.INVISIBLE);
             Toast.makeText(context, "暂无任务数据", Toast.LENGTH_SHORT).show();
         }
-        if (qylEntities.size() != 0) {
-            listview.setVisibility(View.VISIBLE);
-            Collections.reverse(qylEntities);
-            data1Adapter = new Data1ActivityAdapter(context, qylEntities, DataManagerActivity.this);
-            listview.setAdapter(data1Adapter);
-            String pingJun = "";//平均
-            float leiJi = 0;//累积
-            for (int i = 0; i < qylEntities.size(); i++) {
-                leiJi = qylEntities.get(i).getCurrentLi() + leiJi;
-            }
-            pingJun = df2.format(leiJi / qylEntities.size());
-            tvPingJunValue.setText(pingJun);
-            tvLeiJiValue.setText(df2.format(leiJi));
-        } else {
-            listview.setVisibility(View.INVISIBLE);
-            tvPingJunValue.setText("--");
-            tvLeiJiValue.setText("--");
-            Toast.makeText(context, "暂无力数据", Toast.LENGTH_SHORT).show();
-        }
+//        if (qylEntities.size() != 0) {
+//            listview.setVisibility(View.VISIBLE);
+//            Collections.reverse(qylEntities);
+//            data1Adapter = new Data1ActivityAdapter(context, qylEntities, DataManagerActivity.this);
+//            listview.setAdapter(data1Adapter);
+//            String pingJun = "";//平均
+//            float leiJi = 0;//累积
+//            for (int i = 0; i < qylEntities.size(); i++) {
+//                leiJi = qylEntities.get(i).getCurrentLi() + leiJi;
+//            }
+//            pingJun = df2.format(leiJi / qylEntities.size());
+//            tvPingJunValue.setText(pingJun);
+//            tvLeiJiValue.setText(df2.format(leiJi));
+//        } else {
+//            listview.setVisibility(View.INVISIBLE);
+//            tvPingJunValue.setText("--");
+//            tvLeiJiValue.setText("--");
+//            Toast.makeText(context, "暂无力数据", Toast.LENGTH_SHORT).show();
+//        }
     }
 
 
@@ -193,9 +200,12 @@ public class DataManagerActivity extends AppCompatActivity {
             if (!fileDir.exists()) {
                 fileDir.mkdirs();
             }
+            //保存时间
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String format = sdf.format(new Date());
             //再创建文件
             File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() +
-                    "/拉压力综合测试仪/测试报告/" + "力测试数据.xls");
+                    "/拉压力综合测试仪/测试报告/" + "矿用拉压力无线测试仪导出数据" + format + ".xls");
             if (!file.exists()) {
                 file.createNewFile();
             }
@@ -204,19 +214,19 @@ public class DataManagerActivity extends AppCompatActivity {
             Workbook wb = Workbook.getWorkbook(inputStream);
             //我们要操作的中间临时文件
             WritableWorkbook workbook = Workbook.createWorkbook(file, wb);
-            WritableSheet sheet5 = workbook.getSheet(5);//力数据界面
-            List<TaskEntity> taskList = taskEntityDao.loadAll();
+            WritableSheet sheet0 = workbook.getSheet(0);//力数据界面
+            List<TaskEntity> taskList = taskEntities;//导出的数据是listview2所显示的
             if (taskList.size() != 0) {
-                Collections.reverse(taskList);//倒序，最后检的最先显示
+//                Collections.reverse(taskList);//倒序，最后检的最先显示
                 for (int i = 0; i < taskList.size(); i++) {
                     TaskEntity taskEntity = taskList.get(i);
                     Long id = taskEntity.getId();
                     List<QylEntity> qylList = qylEntityDao.queryBuilder().where(QylEntityDao.Properties.Key.eq(id)).list();
-                    WritableCell cell_2y = sheet5.getWritableCell(2, i + 3);//受检单位
-                    WritableCell cell_3y = sheet5.getWritableCell(3, i + 3);//测试人员
-                    WritableCell cell_4y = sheet5.getWritableCell(4, i + 3);//测试时间
-                    WritableCell cell_5y = sheet5.getWritableCell(5, i + 3);//平均力
-                    WritableCell cell_6y = sheet5.getWritableCell(6, i + 3);//备注
+                    WritableCell cell_2y = sheet0.getWritableCell(2, i + 3);//受检单位
+                    WritableCell cell_3y = sheet0.getWritableCell(3, i + 3);//测试人员
+                    WritableCell cell_4y = sheet0.getWritableCell(4, i + 3);//测试时间
+                    WritableCell cell_5y = sheet0.getWritableCell(5, i + 3);//平均力
+                    WritableCell cell_6y = sheet0.getWritableCell(6, i + 3);//备注
                     if (cell_2y.getType() == CellType.LABEL && cell_3y.getType() == CellType.LABEL &&
                             cell_4y.getType() == CellType.LABEL && cell_5y.getType() == CellType.LABEL &&
                             cell_6y.getType() == CellType.LABEL) {
@@ -256,7 +266,7 @@ public class DataManagerActivity extends AppCompatActivity {
 
             try {
                 Intent intent = getWordFileIntent(Environment.getExternalStorageDirectory().getAbsolutePath()
-                        + "/拉压力综合测试仪/测试报告/" + "力测试数据.xls");
+                        + "/拉压力综合测试仪/测试报告/" + "矿用拉压力无线测试仪导出数据" + format + ".xls");
                 startActivity(intent);
             } catch (Exception e) {
                 Toasty.error(context, "打开WPS失败").show();
@@ -284,34 +294,38 @@ public class DataManagerActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.btn_chaXun://查询点击事件
                 String Et1 = et1.getText().toString().trim();
-                String Et2 = this.et2.getText().toString().trim();
-                String Et3 = this.et3.getText().toString().trim();
-                String Et4 = this.et4.getText().toString().trim();
+                String Et2 = et2.getText().toString().trim();
+                String Et3 = et3.getText().toString().trim();
+                String Et4 = et4.getText().toString().trim();
                 if (Et1.equals("") && !Et2.equals("") && !Et4.equals("")) {//et1为空
-                    taskEntities = taskEntityDao.queryBuilder().where(TaskEntityDao.Properties.PeopleName.like(Et2),
-                            TaskEntityDao.Properties.BeiZhu.like(Et4)).list();
+                    taskEntities = taskEntityDao.queryBuilder().where(TaskEntityDao.Properties.PeopleName.like("%" + Et2 + "%"),
+                            TaskEntityDao.Properties.BeiZhu.like("%" + Et4 + "%")).list();
                 } else if (!Et1.equals("") && Et2.equals("") && !Et4.equals("")) {//et2为空
-                    taskEntities = taskEntityDao.queryBuilder().where(TaskEntityDao.Properties.UnitName.like(Et1),
-                            TaskEntityDao.Properties.BeiZhu.like(Et4)).list();
+                    taskEntities = taskEntityDao.queryBuilder().where(TaskEntityDao.Properties.UnitName.like("%" + Et1 + "%"),
+                            TaskEntityDao.Properties.BeiZhu.like("%" + Et4 + "%")).list();
                 } else if (!Et1.equals("") && !Et2.equals("") && Et4.equals("")) {//et4为空
-                    taskEntities = taskEntityDao.queryBuilder().where(TaskEntityDao.Properties.UnitName.like(Et1),
-                            TaskEntityDao.Properties.PeopleName.like(Et2)).list();
+                    taskEntities = taskEntityDao.queryBuilder().where(TaskEntityDao.Properties.UnitName.like("%" + Et1 + "%"),
+                            TaskEntityDao.Properties.PeopleName.like("%" + Et2 + "%")).list();
                 } else if (Et1.equals("") && Et2.equals("") && !Et4.equals("")) {//et1、et2为空
-                    taskEntities = taskEntityDao.queryBuilder().where(TaskEntityDao.Properties.BeiZhu.like(Et4)).list();
+                    taskEntities = taskEntityDao.queryBuilder().where(TaskEntityDao.Properties.BeiZhu.like("%" + Et4 + "%")).list();
                 } else if (Et1.equals("") && !Et2.equals("") && Et4.equals("")) {//et1、et4为空
-                    taskEntities = taskEntityDao.queryBuilder().where(TaskEntityDao.Properties.PeopleName.like(Et2)).list();
+                    taskEntities = taskEntityDao.queryBuilder().where(TaskEntityDao.Properties.PeopleName.like("%" + Et2 + "%")).list();
                 } else if (!Et1.equals("") && Et2.equals("") && Et4.equals("")) {//et2、et4为空
-                    taskEntities = taskEntityDao.queryBuilder().where(TaskEntityDao.Properties.UnitName.like(Et1)).list();
+                    taskEntities = taskEntityDao.queryBuilder().where(TaskEntityDao.Properties.UnitName.like("%" + Et1 + "%")).list();
                 } else if (Et1.equals("") && Et2.equals("") && Et4.equals("")) {//et1、et2、et4全为空
                     taskEntities = taskEntityDao.loadAll();
                 } else if (!Et1.equals("") && !Et2.equals("") && !Et4.equals("")) { //et1、et2、et4全不为空
-                    taskEntities = taskEntityDao.queryBuilder().where(TaskEntityDao.Properties.UnitName.like(Et1),
-                            TaskEntityDao.Properties.PeopleName.like(Et2), TaskEntityDao.Properties.BeiZhu.like(Et4)).list();
+                    taskEntities = taskEntityDao.queryBuilder().where(TaskEntityDao.Properties.UnitName.like("%" + Et1 + "%"),
+                            TaskEntityDao.Properties.PeopleName.like("%" + Et2 + "%"), TaskEntityDao.Properties.BeiZhu.like("%" + Et4 + "%")).list();
                 }
                 if (taskEntities.size() != 0) {
                     Collections.reverse(taskEntities);
                     data2Adapter = new Data2ActivityAdapter(context, taskEntities, DataManagerActivity.this);
                     listView2.setAdapter(data2Adapter);
+                    //查询之后，listview隐藏
+                    listview.setVisibility(View.INVISIBLE);
+                    tvPingJunValue.setText("--");
+                    tvLeiJiValue.setText("--");
                 } else {
                     Toast.makeText(context, "暂无任务数据", Toast.LENGTH_SHORT).show();
                 }
@@ -330,6 +344,10 @@ public class DataManagerActivity extends AppCompatActivity {
                     Collections.reverse(taskEntities);
                     data2Adapter = new Data2ActivityAdapter(context, taskEntities, DataManagerActivity.this);
                     listView2.setAdapter(data2Adapter);
+                    //查询之后，listview隐藏
+                    listview.setVisibility(View.INVISIBLE);
+                    tvPingJunValue.setText("--");
+                    tvLeiJiValue.setText("--");
                 } else {
                     Toast.makeText(context, "暂无任务数据", Toast.LENGTH_SHORT).show();
                 }
@@ -396,6 +414,23 @@ public class DataManagerActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        //删除任务时，对应的力数据也要删除
+                        List<QylEntity> qylList = qylEntityDao.queryBuilder().
+                                where(QylEntityDao.Properties.Key.eq(taskEntity.getId())).list();
+                        if (qylList.size() != 0) {
+                            for (int i = 0; i < qylList.size(); i++) {
+                                qylEntityDao.delete(qylList.get(i));
+                            }
+                        }
+//                        if (qylEntities.size() != 0) {
+//                        如果此时删除的就是上面的listview所展示的，那么把listview隐藏
+//                            if (qylEntities.get(0).getKey() == taskEntity.getId()) {
+                        listview.setVisibility(View.INVISIBLE);
+                        tvPingJunValue.setText("--");
+                        tvLeiJiValue.setText("--");
+//                            }
+//                        }
+
                         taskEntityDao.delete(taskEntity);
                         taskEntities = taskEntityDao.loadAll();
                         if (taskEntities.size() != 0) {

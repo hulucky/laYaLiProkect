@@ -114,7 +114,7 @@
                     style="@style/TextView_laber_inf"
                     android:layout_width="60dp"
                     android:layout_marginLeft="10dp"
-                    android:text="0.00" />
+                    android:text="--" />
 
                 <TextView
                     style="@style/TextView_laber_inf"
@@ -208,9 +208,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_alignParentBottom="true"
+                android:layout_marginBottom="2dp"
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="2dp"
-                android:layout_marginBottom="2dp"
                 android:background="@color/plum"
                 android:divider="@drawable/divider2"
                 android:orientation="horizontal"

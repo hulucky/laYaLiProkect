@@ -40,6 +40,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -212,7 +213,12 @@ public class TestFragment extends ListFragment {
 
     public void start() {//开始制动力测试
         testResLists.clear();//记录的拉力集合
-        tvMaxLi.setText("0.000");
+        tvLi.setText("0.00");
+        if (checkbox.isChecked()) {
+            tvMaxLi.setText("0.00");
+        } else {
+            tvMaxLi.setText("--");
+        }
         maxFaceShow = 0.000f;//最大制动力
         currentRes = 0.000f;//实时力
         btnClearLi.setClickable(false);//开始后就不能再清零
@@ -264,13 +270,19 @@ public class TestFragment extends ListFragment {
         qylEntity.setQylCreateTime(time);//保存时间
         listview.setVisibility(View.VISIBLE);
         qylEntities.add(qylEntity);
-        qylAdapter.updateListView(qylEntities);
+        //这里使用Collections.reverse会出现乱序的情况,原因？？
+        List<QylEntity> list = new ArrayList<>();
+        for (int i = qylEntities.size(); i > 0; i--) {
+            list.add(qylEntities.get(i - 1));
+        }
+
+        qylAdapter.updateListView(list);
         String pingJun = "";//平均
         float leiJi = 0;//累积
-        for (int i = 0; i < qylEntities.size(); i++) {
-            leiJi = qylEntities.get(i).getCurrentLi() + leiJi;
+        for (int i = 0; i < list.size(); i++) {
+            leiJi = list.get(i).getCurrentLi() + leiJi;
         }
-        pingJun = df2.format(leiJi / qylEntities.size());
+        pingJun = df2.format(leiJi / list.size());
         tvPingJunValue.setText(pingJun);
         tvLeiJiValue.setText(df2.format(leiJi));
         Toasty.success(getContext(), "成功记录一条测试数据", 2).show();
@@ -316,7 +328,11 @@ public class TestFragment extends ListFragment {
                     testResLists.add(Math.abs(currentRes));//拉力值集合
                     maxFaceShow = Math.abs(currentRes) > Math.abs(maxFaceShow) ? Math.abs(currentRes) : maxFaceShow;
                     if (testResLists.size() != 0) {
-                        tvMaxLi.setText(df2.format(maxFaceShow));
+                        if (checkbox.isChecked()) {
+                            tvMaxLi.setText(df2.format(maxFaceShow));
+                        } else {
+                            tvMaxLi.setText("--");
+                        }
                     }
                 }
             } else {
@@ -355,12 +371,12 @@ public class TestFragment extends ListFragment {
         switch (view.getId()) {
             case R.id.btn_clearLi://力 清零时，记录下此时的偏差
                 record_zdzdl = value;//记录下此时要减去的值(偏差)
-                tvLi.setText("0.000");
+                tvLi.setText("0.00");
                 Toasty.success(instance, "清除成功！", 2).show();
                 break;
             case R.id.btn_clearMaxLi://最大力清零时，把最大力置为0，并更新textView即可
                 maxFaceShow = 0.000f;
-                tvMaxLi.setText("0.000");
+                tvMaxLi.setText("0.00");
                 Toasty.success(instance, "清除成功！", 2).show();
                 break;
             case R.id.tv_save:
