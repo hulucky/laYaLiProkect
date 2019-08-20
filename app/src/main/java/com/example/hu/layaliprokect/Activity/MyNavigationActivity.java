@@ -109,7 +109,7 @@ public class MyNavigationActivity extends NavigationActivity {
         super.onSpecificationClickListenter();
         Intent intent = new Intent(this, PdfActivity.class);
         intent.putExtra(ConstantPDF.nameFiles, "矿用无线拉压力测试仪说明书");
-        intent.putExtra(ConstantPDF.urlFiles, "doc/矿用单轨吊无线多参数测试仪说明书.pdf");
+        intent.putExtra(ConstantPDF.urlFiles, "doc/矿用拉压力无线测试仪.pdf");
         startActivity(intent);
     }
 }

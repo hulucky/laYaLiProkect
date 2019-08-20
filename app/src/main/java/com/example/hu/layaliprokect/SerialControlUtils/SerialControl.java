@@ -26,23 +26,23 @@ public class SerialControl extends SerialHelper {
 
     @Override
     protected void onDataReceived(ComBean comBean) {
-       if(comBean.recDataType == 64){
-           if (comBean.recData.length == 22) {
-               MyApp.comBeanLali = comBean;//给拉力实体类赋值
-               if (laLiBean == null) {
-                   laLiBean = new LaLiBean(comBean.recData);
-               } else {
-                   //解析拉力串口数据包，并且更新laLiBean的属性。
-                   laLiBean.caculate(comBean.recData);
-                   Log.i("bbb", "拉力数据长度为：" + comBean.recData.length +
-                           "拉力数据为：" + Arrays.toString(comBean.recData));
-               }
-               // 设置回调接口
-               if (receivedSensorData != null && laLiBean != null) {
-                   receivedSensorData.getData(laLiBean);
-               }
-           }
-       }
+        if (comBean.recDataType == 64 || comBean.recDataType == 66) {
+            if (comBean.recData.length == 22) {
+                MyApp.comBeanLali = comBean;//给拉力实体类赋值
+                if (laLiBean == null) {
+                    laLiBean = new LaLiBean(comBean.recData);
+                } else {
+                    //解析拉力串口数据包，并且更新laLiBean的属性。
+                    laLiBean.caculate(comBean.recData);
+                    Log.i("bbb", "拉力数据长度为：" + comBean.recData.length +
+                            "拉力数据为：" + Arrays.toString(comBean.recData));
+                }
+                // 设置回调接口
+                if (receivedSensorData != null && laLiBean != null) {
+                    receivedSensorData.getData(laLiBean);
+                }
+            }
+        }
     }
 
 

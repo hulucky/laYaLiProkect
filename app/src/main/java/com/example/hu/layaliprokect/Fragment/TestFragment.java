@@ -314,7 +314,7 @@ public class TestFragment extends ListFragment {
         if (comBeanLali.recData.length > 0) {
             buffer = comBeanLali.recData;//拿到串口数据
             int type = buffer[9] & 0xff;
-            if (type == 64) {
+            if (type == 64 || type == 66) {
                 if (buffer.length == 22) {
 //                    Log.i("ddd", "record_zdzdl(偏差)====== " + record_zdzdl);
                     float res0 = (float) MyFunc.twoBytesToInt(buffer, 16) / 100f;
